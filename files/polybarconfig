@@ -1,0 +1,243 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background = #282A2E
+background-alt = #373B41 foreground = #C5C8C6
+primary = #F0C674
+secondary = #8ABEB7
+alert = #A54242
+disabled = #707880
+
+[bar/example]
+width = 100%
+height = 18pt
+radius = 0
+
+dpi = 85
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 1pt
+
+border-size = 0pt
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.disabled}
+
+font-0 = monospace;2
+
+modules-left = i3 xwindow
+modules-right = pulseaudio xkeyboard date
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+tray-position = right
+
+bottom = true
+wm-restack = i3
+
+
+[bar/example2]
+width = 100%
+height = 18pt
+radius = 0
+
+dpi = 85
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 1pt
+
+border-size = 0pt
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.disabled}
+
+font-0 = monospace;2
+
+modules-left = i3 xwindow
+modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+tray-position = right
+
+bottom = true
+wm-restack = i3
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+pin-workspaces = true
+
+ws-icon-0 = 1;web
+ws-icon-1 = 2;ml
+ws-icon-2 = 3;tg
+ws-icon-3 = 4;fw
+
+label-focused-foreground = #f3f3f3
+label-focused-background = #3f3f3f
+;label-focused-underline = #${colors.accent}
+label-focused-underline = #9f78e1
+
+label-unfocused-underline = #555555
+label-unfocused-font = 1
+label-unfocused-padding = 1
+
+label-urgent = %icon%  %name%
+label-urgent-foreground = #000000
+label-urgent-background = #bd2c40
+label-urgent-underline = #9b0a20
+label-urgent-font = 1
+label-urgent-padding = 1
+
+label-visible = %icon%  %name%
+label-visible-foreground = #55ffffff
+label-visible-font = 1
+label-visible-padding = 1
+
+[module/xworkspaces]
+type = internal/xworkspaces
+
+label-active = %name%
+label-active-background = ${colors.background-alt}
+label-active-underline= ${colors.primary}
+label-active-padding = 1
+
+label-occupied = %name%
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+label-empty = %name%
+label-empty-foreground = ${colors.disabled}
+label-empty-padding = 1
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:60:...%
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = %{F#F0C674}%mountpoint%%{F-} %percentage_used%%
+
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.disabled}
+
+[module/battery]
+type = custom/script
+exec = $HOME/.config/polybar/battery.sh
+interval=5
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume-prefix = "VOL "
+format-volume-prefix-foreground = ${colors.primary}
+format-volume = <label-volume>
+
+label-volume = %percentage%%
+
+label-muted = muted
+label-muted-foreground = ${colors.disabled}
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+label-layout = %layout%
+label-layout-foreground = ${colors.primary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-foreground = ${colors.background}
+label-indicator-background = ${colors.secondary}
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "RAM "
+format-prefix-foreground = ${colors.primary}
+label = %percentage_used:2%%
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "CPU "
+format-prefix-foreground = ${colors.primary}
+label = %percentage:2%%
+
+[network-base]
+type = internal/network
+interval = 5
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+label-disconnected = %{F#F0C674}%ifname%%{F#707880} disconnected
+
+[module/wlan]
+inherit = network-base
+interface-type = wireless
+label-connected = %{F#F0C674}%ifname%%{F-} %essid% %local_ip%
+
+[module/eth]
+inherit = network-base
+interface-type = wired
+label-connected = %{F#F0C674}%ifname%%{F-} %local_ip%
+
+[module/date]
+type = internal/date
+interval = 1
+
+date = %H:%M
+date-alt = %Y-%m-%d %H:%M:%S
+
+label = %date%
+label-foreground = ${colors.primary}
+
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+
+; vim:ft=dosini

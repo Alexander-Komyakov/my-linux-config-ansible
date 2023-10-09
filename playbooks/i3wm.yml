@@ -1,0 +1,138 @@
+- name: install i3wm
+  hosts: all
+  gather_facts: no
+  become: yes
+  ignore_errors: true
+  tasks:
+    - name: Update Package Cache (apt/Ubuntu)
+      tags: always
+      apt:
+        update_cache: yes
+      changed_when: false
+    - name: Add the user 'alexander'
+      ansible.builtin.user:
+        name: alexander
+        groups: sudo
+        append: yes
+        shell: /bin/bash
+        password: "{{ 'password' | password_hash('sha512') }}" 
+        uid: 1040
+    - name: Install i3
+      ansible.builtin.package:
+        name:
+          - i3
+          - vim
+          - rofi
+          - i3lock
+          - polybar
+          - feh
+          - imagemagick
+          - picom
+          - xorg
+          - x11-xkb-utils
+          - xfce4-terminal
+          - git
+          - parcellite
+          - sddm
+          - xserver-xorg
+          - xserver-xorg-core
+          - firefox
+        state: latest	
+    - name: stop disable lightdm
+      systemd:
+        name: lightdm
+        state: stopped
+        enabled: no
+    - name: Create directory to config
+      file:
+        path: /home/alexander/{{ item }}
+        state: directory
+        mode: 0755
+        owner: alexander
+        group: alexander
+      loop:
+        - '.config'
+        - '.config/i3'
+        - '.config/polybar'
+        - '.config/'
+        - '.config/xfce4'
+        - '.config/xfce4/terminal'
+        - 'images'
+
+    - name: desktop images install
+      copy:
+        src: ../files/image.jpg
+        dest: /home/alexander/images/fon.jpg
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: lightdm service stop disable
+      service:
+        name: lightdm
+        state: stopped
+        enable: no
+    - name: lightdm remove
+      file:
+        path: /etc/lightdm/lightdm.conf
+        state: absent
+    - name: default display manager config install
+      copy:
+        dest: /etc/X11/default-display-manager
+        content: /usr/bin/sddm
+        owner: root
+        group: root
+        mode: 0755
+    - name: vim config install
+      copy:
+        src: ../files/vimrc
+        dest: /home/alexander/.vimrc
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: i3 config install
+      copy:
+        src: ../files/i3config
+        dest: /home/alexander/.config/i3/config
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: polybar config install
+      copy:
+        src: ../files/polybarconfig
+        dest: /home/alexander/.config/polybar/config
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: Xresources config install
+      copy:
+        src: ../files/Xresources
+        dest: /home/alexander/.Xresources
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: bashrc config install
+      copy:
+        src: ../files/bashrc
+        dest: /home/alexander/.bashrc
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: bashrc config install
+      copy:
+        src: ../files/bashrc
+        dest: /home/alexander/.bashrc
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: xfce4terminalrc config install
+      copy:
+        src: ../files/xfce4terminalrc
+        dest: /home/alexander/.config/xfce4/terminal/terminalrc
+        owner: alexander
+        group: alexander
+        mode: 0755
+    - name: sddm enable start
+      service:
+        name: sddm
+        state: started
+        enabled: yes
