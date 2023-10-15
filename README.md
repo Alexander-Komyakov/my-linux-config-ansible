@@ -6,6 +6,8 @@ Ubuntu-22.04 LTS
 
 ## Build
 `sudo apt install ansible`
+
+
 <i>change inventory.yml</i>
 
 
