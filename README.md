@@ -6,7 +6,7 @@ Ubuntu-22.04 LTS
 
 ## Build
 `sudo apt install ansible`
-~change inventory.yml~
+<i>change inventory.yml</i>
 
 
 `ansible-playbook -i inventory/mypc.yml playbooks/my-desktop.yml`
