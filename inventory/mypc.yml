@@ -1,17 +1,10 @@
 all:
   children:
-    mypcgg:
+    myvm-test:
       hosts:
-        vmpc2:
-          ansible_host: 192.168.122.91
+        vm-test-pc:
+          ansible_host: 192.168.122.3
       vars:
          ansible_ssh_user: user
-         ansible_become_pass: qwerty
-         ansible_ssh_pass: qwerty
-    mypc:
-      hosts:
-        vmpc:
-          ansible_host: 192.168.122.159
-      vars:
-         ansible_ssh_user: root
-         ansible_ssh_pass: qwerty
+         ansible_become_pass: 123456
+         ansible_ssh_pass: 123456

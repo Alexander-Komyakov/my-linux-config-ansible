@@ -1,0 +1,14 @@
+---
+- name: install my desktop
+  hosts: all
+  gather_facts: no
+  become: yes
+  ignore_errors: true
+  tasks:
+    - name: my-desktop role
+      include_role:
+        name: my-desktop
+      vars:
+        user_name: 'testtest'
+        user_password: '123456'
+...

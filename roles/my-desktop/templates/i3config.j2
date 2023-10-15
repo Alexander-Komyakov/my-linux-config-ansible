@@ -189,16 +189,13 @@ for_window [tiling] border pixel 1
 #floating_minimum_size 75 x 50
 #floating_maximum_size 800 x 600 
 
-exec xrandr --output DP-1 --primary --mode 1920x1080 --rate 170 --pos 1920x0 --rotate normal --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 0x0 --rotate normal
+{{ xrandr_exec }}
 
 exec pkill ibus
-exec feh --bg-scale /home/alexander/images/fon.jpg &
+exec feh --bg-scale /home/{{ user_name }}/images/fon.jpg &
 exec xset dpms 0 0 0 &
-#exec picom &
 exec picom --vsync &
-#exec_always --no-startup-id killall polybar; polybar &
-#exec_always --no-startup-id killall polybar; env MONITOR=DP-1 polybar --reload example2 &; env MONITOR=HDMI-2 polybar --reload example &
-exec polybar --reload example2 &
+{{ polybar_exec }}
 exec xrdb -merge "$userresources" &
 exec parcellite &
 exec flameshot &

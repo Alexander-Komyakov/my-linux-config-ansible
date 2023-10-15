@@ -1,5 +1,4 @@
 [Configuration]
-FontName=Liberation Mono 12
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBellUrgent=FALSE
@@ -32,4 +31,5 @@ ColorForeground=#ffffffffffff
 ScrollingLines=1000000
 ColorBackground=#3d3d38384646
 ScrollingUnlimited=TRUE
+BackgroundImageShading=0,970000
 

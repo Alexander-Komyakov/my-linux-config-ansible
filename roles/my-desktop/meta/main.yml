@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: a_komyakov
+  role_name: i3wm
+  description: install/configure my desktop
+  license: license GPLv2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - bionic
+        - Jammy
+
+  min_ansible_version: 1.2
+dependencies: []
+...
