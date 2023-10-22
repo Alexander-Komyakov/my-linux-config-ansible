@@ -1,0 +1,102 @@
+- name: Create directory to config
+  file:
+    path: "/home/{{ user_name }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+  loop:
+    - '.config'
+    - '.config/i3'
+    - '.config/polybar'
+    - '.config/'
+    - '.config/xfce4'
+    - '.config/xfce4/terminal'
+    - 'images'
+
+- name: Xorg keyboard config
+  become: yes
+  template:
+    src: 00-keyboard.conf.j2
+    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+    mode: 0644
+
+- name: desktop images install
+  copy:
+    src: image.jpg
+    dest: "/home/{{ user_name }}/images/fon.jpg"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: default display manager config install
+  copy:
+    dest: /etc/X11/default-display-manager
+    content: /usr/bin/sddm
+    owner: root
+    group: root
+    mode: 0755
+
+- name: vim config install
+  copy:
+    src: vimrc
+    dest: "/home/{{ user_name }}/.vimrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: i3 config install
+  template:
+    src: i3config.j2
+    dest: "/home/{{ user_name }}/.config/i3/config"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: polybar config install
+  copy:
+    src: polybarconfig
+    dest: "/home/{{ user_name }}/.config/polybar/config"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: Xresources config install
+  copy:
+    src: Xresources
+    dest: "/home/{{ user_name }}/.Xresources"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: bashrc config install
+  copy:
+    src: bashrc
+    dest: "/home/{{ user_name }}/.bashrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: bashrc config install
+  copy:
+    src: bashrc
+    dest: "/home/{{ user_name }}/.bashrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: xfce4terminalaccess config install
+  copy:
+    src: xfce4terminalaccels.scm
+    dest: "/home/{{ user_name }}/.config/xfce4/terminal/accels.scm"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: xfce4terminalrc config install
+  copy:
+    src: xfce4terminalrc
+    dest: "/home/{{ user_name }}/.config/xfce4/terminal/terminalrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755

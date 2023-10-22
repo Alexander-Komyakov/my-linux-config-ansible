@@ -1,0 +1,4 @@
+- name: Delete cdrom repo
+  ansible.builtin.apt_repository:
+    repo: deb [check-date=no] file:///cdrom jammy main restricted
+    state: absent

@@ -1,0 +1,7 @@
+- name: Add user 
+  ansible.builtin.user: 
+    name: "{{ user_name }}" 
+    groups: sudo 
+    append: yes 
+    shell: /bin/bash 
+    password: "{{ user_password | password_hash('sha512') }}"  
