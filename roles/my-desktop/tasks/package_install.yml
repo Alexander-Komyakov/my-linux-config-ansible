@@ -10,7 +10,7 @@
       - i3
       - vim
       - rofi
-      - i3lock
+      - xsecurelock
       - polybar
       - feh
       - imagemagick
