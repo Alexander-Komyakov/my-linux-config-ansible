@@ -23,9 +23,7 @@ font pango: JetBrains Mono 10
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- xsecurelock --nofork
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the # screen before suspend. Use loginctl lock-session to lock your screen.  exec --no-startup-id xss-lock --transfer-sleep-lock -- xsecurelock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -181,21 +179,16 @@ bindsym $mod+r mode "resize"
 bindsym XF86MonBrightnessUp exec xbacklight -inc 6
 bindsym XF86MonBrightnessDown exec xbacklight -dec 6
 
+bindsym $mod+m exec /home/alexander/.config/i3/grandr.sh
+
 bindsym Print exec import -window root ~/images/screenshot.jpg
 
 default_border pixel
 for_window [tiling] border pixel 1
 
-#floating_minimum_size 75 x 50
-#floating_maximum_size 800 x 600 
-
-{{ xrandr_exec }}
-
 exec pkill ibus
-exec feh --bg-scale /home/{{ user_name }}/images/fon.jpg &
 exec xset dpms 0 0 0 &
 exec picom --vsync &
-{{ polybar_exec }}
 exec xrdb -merge "$userresources" &
 exec parcellite &
 exec flameshot &
@@ -203,3 +196,5 @@ exec flameshot &
 #exec setxkbmap -layout 'us,ru' -option 'grp:caps_toggle'
 exec xset s off &
 #exec syndaemon -i 0.4 -d
+exec /home/alexander/.config/i3/grandr.sh
+exec feh --bg-scale /home/{{ user_name }}/images/fon.jpg &

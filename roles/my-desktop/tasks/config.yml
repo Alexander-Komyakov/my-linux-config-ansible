@@ -29,6 +29,14 @@
     group: "{{ user_name }}"
     mode: 0755
 
+- name: copy monitor script
+  copy:
+    src: grandr.sh
+    dest: "/home/{{ user_name }}/.config/i3/grandr.sh"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0777
+
 - name: default display manager config install
   copy:
     dest: /etc/X11/default-display-manager
