@@ -32,9 +32,9 @@ bspc rule -a QjackCtl desktop=^8 state=floating center=true && qjackctl &
 #rules
 bspc rule -a nekobox desktop=^9 
 bspc rule -a discord desktop=^10 && "$HOME/discord.sh"
-bspc rule -a telegram desktop=^10 && telegram &
+bspc rule -a TelegramDesktop desktop=^10 && telegram &
 bspc rule -a firefox desktop=^1 && firefox &
-bspc rule -a Google-chrome state=tiled desktop=^2 && sudo -E ip netns exec isolated su - $USER -c "DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR /opt/google/chrome/chrome --new-window" &
+bspc rule -a Chromium state=tiled desktop=^2 && sudo -E ip netns exec isolated su - $USER -c "DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR chromium --new-window" &
 
 #autostart
 sxhkd &

@@ -40,6 +40,7 @@
       - xserver-xorg
       - xserver-xorg-core
       - firefox-esr
+      - chromium
       - fonts-jetbrains-mono
       - pavucontrol
       - flameshot
@@ -84,10 +85,6 @@
     - name: Local install nekoray
       apt:
         deb: /tmp/nekoray.deb
-
-
-#https://discord.com/api/download?platform=linux&format=deb
-#https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso
 
 - name: Create directory to config
   file:

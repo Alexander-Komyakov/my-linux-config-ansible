@@ -1,18 +1,15 @@
 ## Install my desktop app and config
 
 ## Supported distr:
-Ubuntu-22.04 LTS
+Debian 13
+https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso
 
 
-## Build
-`sudo apt install ansible`
+## Run
+`./runInstall.sh`
 
-
-<i>change inventory.yml</i>
-
-
-`ansible-playbook -i inventory/mypc.yml playbooks/my-desktop.yml`
-
+## Install discord
+#https://discord.com/api/download?platform=linux&format=deb
 
 # Created by Alexander Komyakov
 For any kind of help, support, suggetion and request ask in me
