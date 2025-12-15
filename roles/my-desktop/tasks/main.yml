@@ -1,21 +1,160 @@
 ---
-- name: rm cd-rom repo
-  ansible.builtin.include_tasks:
-    file: repo.yml
+- name: Add user 
+  user: 
+    name: "{{ user_name }}" 
+    groups: sudo 
+    append: yes 
+    shell: /bin/bash 
+    password: "{{ user_password | password_hash('sha512') }}"  
 
-- name: add user
-  ansible.builtin.include_tasks:
-    file: user.yml
+- name: Update Package Cache
+  tags: always
+  apt:
+    update_cache: yes
 
-- name: install package
-  ansible.builtin.include_tasks:
-    file: package_install.yml
+- name: Install all packages
+  package:
+    name:
+      - bspwm
+      - vim
+      - rofi
+      - xsecurelock
+      - polybar
+      - feh
+      - imagemagick
+      - picom
+      - x11-xkb-utils
+      - xfce4-terminal
+      - lightdm
+      - xserver-xorg
+      - xserver-xorg-core
+      - firefox-esr
+      - fonts-jetbrains-mono
+      - pavucontrol
+      - flameshot
+      - pulseaudio-module-jack
+    state: latest
 
-- name: configuring all service
-  ansible.builtin.include_tasks:
-    file: config.yml
+#https://discord.com/api/download?platform=linux&format=deb
+#telegram
+#sudo ln -sf /opt/telegram/Telegram /usr/local/bin/telegram
+#https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso
 
-- name: enable/start service
-  ansible.builtin.include_tasks:
-    file: service.yml
+- name: Create directory to config
+  file:
+    path: "/home/{{ user_name }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+  loop:
+    - '.config'
+    - '.config/bspwm'
+    - '.config/polybar'
+    - '.scripts'
+    - '.config/xfce4'
+    - '.config/xfce4/terminal'
+    - 'images'
+
+- name: Xorg keyboard config
+  become: yes
+  template:
+    src: 00-keyboard.conf.j2
+    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+    mode: 0644
+
+- name: desktop images install
+  copy:
+    src: image.jpg
+    dest: "/home/{{ user_name }}/images/fon.jpg"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: copy float script
+  copy:
+    src: workfloat.sh
+    dest: "/home/{{ user_name }}/.scripts/workfloat.sh"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0777
+
+- name: default display manager config install
+  copy:
+    dest: /etc/X11/default-display-manager
+    content: /usr/bin/slim
+    owner: root
+    group: root
+    mode: 0755
+
+- name: vim config install
+  copy:
+    src: vimrc
+    dest: "/home/{{ user_name }}/.vimrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: bspwm config install
+  copy:
+    src: bspwmrc
+    dest: "/home/{{ user_name }}/.config/bspwm/bspwmrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0775
+
+- name: polybar config install
+  copy:
+    src: polybarconfig
+    dest: "/home/{{ user_name }}/.config/polybar/config"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: Xresources config install
+  copy:
+    src: Xresources
+    dest: "/home/{{ user_name }}/.Xresources"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: bashrc config install
+  copy:
+    src: bashrc
+    dest: "/home/{{ user_name }}/.bashrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: bashrc config install
+  copy:
+    src: bashrc
+    dest: "/home/{{ user_name }}/.bashrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: xfce4terminalaccess config install
+  copy:
+    src: xfce4terminalaccels.scm
+    dest: "/home/{{ user_name }}/.config/xfce4/terminal/accels.scm"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+- name: xfce4terminalrc config install
+  copy:
+    src: xfce4terminalrc
+    dest: "/home/{{ user_name }}/.config/xfce4/terminal/terminalrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+
+
+- name: slim enable start
+  service:
+    name: slim
+    state: started
+    enabled: yes
 ...

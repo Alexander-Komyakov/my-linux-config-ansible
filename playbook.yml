@@ -1,6 +1,6 @@
 ---
 - name: install my desktop
-  hosts: all
+  hosts: localhost
   gather_facts: no
   become: yes
   ignore_errors: true

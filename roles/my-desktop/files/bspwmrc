@@ -27,7 +27,6 @@ killall fcitx 2>/dev/null &
 killall pulse 2>/dev/null &
 
 #for i in `bspc query -N`; do bspc query --node $i -T|jq |grep -i className; done
-#bspc rule -a qjackctl desktop=^8
 bspc rule -a QjackCtl desktop=^8 state=floating center=true && qjackctl &
 #for i in `bspc query -N`; do for j in `bspc query --node $i -T|jq -r '.. | select(.client?.className == "QjackCtl") | .id'`; do bspc node $j -d ^8; done; done
 #rules

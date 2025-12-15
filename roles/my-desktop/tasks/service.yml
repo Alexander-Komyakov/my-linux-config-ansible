@@ -1,5 +1,0 @@
-- name: sddm enable start
-  service:
-    name: sddm
-    state: started
-    enabled: yes
