@@ -225,15 +225,11 @@
 
     - name: Download and add WineHQ GPG key
       shell: |
-        wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq.gpg
-      args:
-        creates: /etc/apt/keyrings/winehq.gpg
+        wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 
-    - name: Add WineHQ APT repository
-      apt_repository:
-        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/winehq.gpg] https://dl.winehq.org/wine-builds/debian/ trixie main"
-        filename: winehq
-        state: present
+    - name: Download and add WineHQ GPG key
+      shell: |
+        wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
 
     - name: Install Wine (stable)
       apt:
