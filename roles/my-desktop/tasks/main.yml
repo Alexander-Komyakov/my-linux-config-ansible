@@ -51,6 +51,8 @@
       - audacity
       - krita
       - iptables
+      - htop
+#gvfs-backends
     state: latest
 
 - name: Install Telegram Desktop

@@ -7,6 +7,7 @@ SUBNET="10.200.200.0/24"
 HOST_IP="10.200.200.1"
 NS_IP="10.200.200.2"
 
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
 # Создать namespace
 sudo ip netns add $NS_NAME 2>/dev/null || echo "Namespace '$NS_NAME' уже существует"
 
@@ -26,10 +27,10 @@ sudo ip netns exec $NS_NAME ip link set lo up
 # Добавить default route в namespace через хост
 sudo ip netns exec $NS_NAME ip route add default via $HOST_IP
 
-# Включить маскарадинг (NAT) через enp6s0
-sudo iptables -t nat -A POSTROUTING -s $SUBNET -o enp6s0 -j MASQUERADE
-sudo iptables -A FORWARD -i $VETH_HOST -o enp6s0 -j ACCEPT
-sudo iptables -A FORWARD -i enp6s0 -o $VETH_HOST -m state --state RELATED,ESTABLISHED -j ACCEPT
+# Включить маскарадинг (NAT) через enp1s0
+sudo iptables -t nat -A POSTROUTING -s $SUBNET -o enp1s0 -j MASQUERADE
+sudo iptables -A FORWARD -i $VETH_HOST -o enp1s0 -j ACCEPT
+sudo iptables -A FORWARD -i enp1s0 -o $VETH_HOST -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 # Настроить DNS внутри namespace
 sudo mkdir -p /etc/netns/$NS_NAME
@@ -41,6 +42,6 @@ sudo -E ip netns exec isolated su - $USER -c "DISPLAY=$DISPLAY XAUTHORITY=$XAUTH
 #sudo -E ip netns exec isolated su - $USER -c "DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR /opt/google/chrome/chrome" &
 
 #sleep 3
-#sudo resolvectl dns enp6s0 8.8.8.8 192.168.3.1 && sudo systemctl restart systemd-resolved.service
+#sudo resolvectl dns enp1s0 8.8.8.8 192.168.3.1 && sudo systemctl restart systemd-resolved.service
 
 #sudo systemctl restart openvpn@al.komyakov01

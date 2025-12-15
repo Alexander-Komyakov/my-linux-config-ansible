@@ -49,6 +49,8 @@ module-margin = 1
 separator = |
 separator-foreground = ${colors.disabled}
 
+tray-position = right
+
 font-0 = monospace;2
 
 modules-right = filesystem pulseaudio xkeyboard memory cpu date
