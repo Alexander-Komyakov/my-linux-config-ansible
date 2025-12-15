@@ -225,7 +225,8 @@
 
     - name: Download and add WineHQ GPG key
       shell: |
-        wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+        wget -O - https://dl.winehq.org/wine-builds/winehq.key | \
+        gpg --batch --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key
 
     - name: Wine repo add
       shell: |
