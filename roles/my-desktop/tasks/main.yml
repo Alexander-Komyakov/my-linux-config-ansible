@@ -27,6 +27,7 @@
     name:
       - bspwm
       - vim
+      - rsync
       - rofi
       - xsecurelock
       - polybar
