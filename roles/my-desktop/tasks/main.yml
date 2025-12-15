@@ -39,6 +39,7 @@
       - gimp
       - audacity
       - krita
+      - iptables
     state: latest
 
 - name: Install Telegram Desktop
