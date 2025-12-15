@@ -52,8 +52,37 @@
       - krita
       - iptables
       - htop
+      - openvpn
+      - ifupdown
+      - dnsmasq
 #gvfs-backends
     state: latest
+
+- name: dnsmasq configure
+  copy:
+    src: dnsmasq.conf
+    dest: "/etc/dnsmasq.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+    enabled: yes
+
+- name: Ensure /etc/resolv.conf uses 127.0.0.1
+  ansible.builtin.copy:
+    content: "nameserver 127.0.0.1\n"
+    dest: /etc/resolv.conf
+    mode: '0644'
+
+- name: Add dns-nameservers to /etc/network/interfaces (if exists)
+  ansible.builtin.lineinfile:
+    path: /etc/network/interfaces
+    line: "dns-nameservers 127.0.0.1"
+    insertafter: EOF
 
 - name: Install Telegram Desktop
   block:
@@ -235,7 +264,6 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
     mode: 0755
-
 
 - name: slim enable start
   service:
