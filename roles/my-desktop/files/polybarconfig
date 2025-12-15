@@ -100,7 +100,7 @@ separator-foreground = ${colors.disabled}
 
 font-0 = monospace;2
 
-modules-right = vram filesystem pulseaudio xkeyboard memory cpu date
+modules-right = filesystem pulseaudio xkeyboard memory cpu date
 modules-left = xworkspaces
 
 cursor-click = pointer
@@ -227,15 +227,6 @@ interval = 2
 format-prefix = "RAM "
 format-prefix-foreground = ${colors.primary}
 label = %percentage_used:2%%
-
-[module/vram]
-type = custom/script
-exec = echo $((`cat /sys/class/drm/card1/device/mem_info_vram_used`/1024/1024)) / $((`cat /sys/class/drm/card1/device/mem_info_vram_total`/1024/1024)) MB
-interval = 2
-format = <label>
-format-prefix = "VRAM "
-format-prefix-foreground = ${colors.primary}
-label = %output%
 
 [module/cpu]
 type = internal/cpu

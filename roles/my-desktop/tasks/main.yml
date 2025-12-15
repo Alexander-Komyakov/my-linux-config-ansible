@@ -26,6 +26,7 @@
       - x11-xkb-utils
       - xfce4-terminal
       - slim
+      - qjackctl
       - xserver-xorg
       - xserver-xorg-core
       - firefox-esr
@@ -34,11 +35,47 @@
       - flameshot
       - pulseaudio-module-jack
       - sxhkd
+      - alttab
+      - gimp
+      - audacity
+      - krita
     state: latest
 
+- name: Install Telegram Desktop
+  block:
+    - name: Download Telegram
+      get_url:
+        url: https://telegram.org/dl/desktop/linux
+        dest: /tmp/telegram.tar.xz
+        mode: '0644'
+
+    - name: Extract Telegram
+      unarchive:
+        src: /tmp/telegram.tar.xz
+        dest: /opt/
+        creates: /opt/Telegram/Telegram
+        remote_src: yes
+
+    - name: Create symlink
+      file:
+        src: /opt/Telegram/Telegram
+        dest: /usr/local/bin/telegram
+        state: link
+
+- name: Install nekoray
+  block:
+    - name: Download nekoray
+      get_url:
+        url: https://github.com/MatsuriDayo/nekoray/releases/download/4.0.1/nekoray-4.0.1-2024-12-12-debian-x64.deb
+        dest: /tmp/nekoray.deb
+        mode: '0644'
+
+    - name: Local install nekoray
+      apt:
+        deb: /tmp/nekoray.deb
+
+
 #https://discord.com/api/download?platform=linux&format=deb
-#telegram
-#sudo ln -sf /opt/telegram/Telegram /usr/local/bin/telegram
 #https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso
 
 - name: Create directory to config
