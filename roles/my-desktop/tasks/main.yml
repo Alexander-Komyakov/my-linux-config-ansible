@@ -2,7 +2,7 @@
 - name: Add user 
   user: 
     name: "{{ user_name }}" 
-    groups: sudo 
+    groups: sudo,audio
     append: yes 
     shell: /bin/bash 
     password: "{{ user_password | password_hash('sha512') }}"  
@@ -63,7 +63,7 @@
       - blender
       - thunderbird
       - gerbv
-#gvfs-backends
+      - gvfs-backends
     state: latest
 
 
