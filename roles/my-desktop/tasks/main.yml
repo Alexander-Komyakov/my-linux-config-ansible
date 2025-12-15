@@ -178,6 +178,19 @@
       apt:
         deb: /tmp/nekoray.deb
 
+
+- name: Install dependency opentablet dotnet
+  block:
+    - name: Download dotnet deb repo
+      get_url:
+        url: https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb
+        dest: /tmp/dotnetrepo.deb
+        mode: '0775'
+
+    - name: Local install dotnetrepo
+      apt:
+        deb: /tmp/dotnetrepo.deb
+
 - name: Install opentablet
   block:
     - name: Download opentablet
@@ -189,6 +202,7 @@
     - name: Local install opentablet
       apt:
         deb: /tmp/opentablet.deb
+        update_cache: true
 
 - name: Install rutoken
   block:
@@ -202,12 +216,15 @@
       apt:
         deb: /tmp/rutoken.deb
 
-
-
-
-
 - name: Install wine
   block:
+    - name: Enable i386 architecture for Wine
+      ansible.builtin.command:
+        cmd: dpkg --add-architecture i386
+        # Идемпотентность: проверяем, что архитектура ещё не добавлена
+        creates: /var/lib/dpkg/arch/i386
+      become: yes
+
     - name: Download and add WineHQ GPG key
       shell: |
         wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq.gpg
