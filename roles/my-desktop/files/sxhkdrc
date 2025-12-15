@@ -1,0 +1,38 @@
+super + Return
+	xfce4-terminal
+super + shift + Escape
+	bspc quit
+super + d
+	rofi -combi-modi combi,drun,run -show combi
+Print
+	flameshot screen -n 0 -c
+XF86AudioRaiseVolume
+	pactl set-sink-volume @DEFAULT_SINK@ +5%
+XF86AudioLowerVolume
+	pactl set-sink-volume @DEFAULT_SINK@ -5%
+ctrl + Print
+	flameshot gui
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+super + shift + {h,j,k,l}
+	bspc node -n {west,south,north,east}
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+super + {_,shift + }{minus,equal,BackSpace}
+    bspc {desktop -f,node -d} '^{11,12,13}'
+super + shift + q
+	bspc node -c
+super + f
+	if [ -z "$(bspc query -N -n focused.fullscreen)" ]; then \
+		bspc node focused -t fullscreen; \
+	else \
+		bspc node focused -t tiled; \
+	fi
+super + x
+    if [ -z "$(bspc query -N -n focused.floating)" ]; then \
+        bspc node focused -t floating; \
+    else \
+        bspc node focused -t tiled; \
+    fi
+super + Delete 
+	 xset dpms 5 5 0 && i3lock -n -k -e && xset dpms 0 0 0

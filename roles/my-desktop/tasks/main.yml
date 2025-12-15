@@ -33,6 +33,7 @@
       - pavucontrol
       - flameshot
       - pulseaudio-module-jack
+      - sxhkd
     state: latest
 
 #https://discord.com/api/download?platform=linux&format=deb
@@ -51,6 +52,7 @@
     - '.config'
     - '.config/bspwm'
     - '.config/polybar'
+    - '.config/sxhkd'
     - '.scripts'
     - '.config/xfce4'
     - '.config/xfce4/terminal'
@@ -85,6 +87,14 @@
     content: /usr/bin/slim
     owner: root
     group: root
+    mode: 0755
+
+- name: sxhkdrc config install
+  copy:
+    src: sxhkdrc
+    dest: "/home/{{ user_name }}/.config/sxhkd/sxhkdrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
     mode: 0755
 
 - name: vim config install
