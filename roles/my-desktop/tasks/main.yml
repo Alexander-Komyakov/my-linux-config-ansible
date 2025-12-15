@@ -59,8 +59,21 @@
       - ca-certificates
       - curl
       - gpg
+      - freecad
+      - blender
+      - thunderbird
+      - gerbv
 #gvfs-backends
     state: latest
+
+
+
+- name: Download winbox
+  get_url:
+    url: 'https://download.mikrotik.com/routeros/winbox/3.43/winbox64.exe'
+    dest: /opt/winbox.exe
+    mode: '0777'
+  become: yes
 
 - name: Docker install
   block:
@@ -99,6 +112,12 @@
         name: docker
         state: started
         enabled: yes
+
+    - name: Add user to docker group
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        groups: docker
+        append: yes
 
 - name: dnsmasq configure
   copy:
@@ -158,6 +177,55 @@
     - name: Local install nekoray
       apt:
         deb: /tmp/nekoray.deb
+
+- name: Install opentablet
+  block:
+    - name: Download opentablet
+      get_url:
+        url: https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest/download/opentabletdriver-0.6.6.2-1-x64.deb
+        dest: /tmp/opentablet.deb
+        mode: '0775'
+
+    - name: Local install opentablet
+      apt:
+        deb: /tmp/opentablet.deb
+
+- name: Install rutoken
+  block:
+    - name: Download rutoken
+      get_url:
+        url: https://www.rutoken.ru/support/download/get/rtPKCS11-deb-x64.html 
+        dest: /tmp/rutoken.deb
+        mode: '0775'
+
+    - name: Local install rutoken
+      apt:
+        deb: /tmp/rutoken.deb
+
+
+
+
+
+- name: Install wine
+  block:
+    - name: Download and add WineHQ GPG key
+      shell: |
+        wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq.gpg
+      args:
+        creates: /etc/apt/keyrings/winehq.gpg
+
+    - name: Add WineHQ APT repository
+      apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/winehq.gpg] https://dl.winehq.org/wine-builds/debian/ bookworm main"
+        filename: winehq
+        state: present
+
+    - name: Install Wine (stable)
+      apt:
+        name:
+          - winehq-stable
+        state: present
+        update_cache: yes
 
 - name: Create directory to config
   file:

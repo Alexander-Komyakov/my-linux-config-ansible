@@ -4,12 +4,13 @@
 Debian 13
 https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso
 
-
 ## Run
 `./runInstall.sh`
 
-## Install discord
-#https://discord.com/api/download?platform=linux&format=deb
+## Task
+Candle ngc pcb2gcode config 2.5.0
+godot 4 install
+asseprite install
 
 # Created by Alexander Komyakov
 For any kind of help, support, suggetion and request ask in me
