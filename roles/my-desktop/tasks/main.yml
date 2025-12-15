@@ -208,7 +208,7 @@
   block:
     - name: Download rutoken
       get_url:
-        url: https://www.rutoken.ru/support/download/get/rtPKCS11-deb-x64.html 
+        url: https://download.rutoken.ru/Rutoken/PKCS11Lib/2.18.1.0/Linux/x64/librtpkcs11ecp_2.18.1.0-1_amd64.deb
         dest: /tmp/rutoken.deb
         mode: '0775'
 
