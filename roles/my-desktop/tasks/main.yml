@@ -7,6 +7,16 @@
     shell: /bin/bash 
     password: "{{ user_password | password_hash('sha512') }}"  
 
+- name: Allow user to run sudo without password
+  lineinfile:
+    path: /etc/sudoers.d/{{ user_name }}
+    create: yes
+    owner: root
+    group: root
+    mode: '0440'
+    line: '{{ user_name }} ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+
 - name: Update Package Cache
   tags: always
   apt:
