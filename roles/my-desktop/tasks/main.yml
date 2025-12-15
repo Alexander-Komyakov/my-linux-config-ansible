@@ -231,7 +231,7 @@
 
     - name: Add WineHQ APT repository
       apt_repository:
-        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/winehq.gpg] https://dl.winehq.org/wine-builds/debian/ bookworm main"
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/winehq.gpg] https://dl.winehq.org/wine-builds/debian/ trixie main"
         filename: winehq
         state: present
 
