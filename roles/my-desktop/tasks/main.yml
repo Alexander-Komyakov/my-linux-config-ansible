@@ -223,10 +223,16 @@
         cmd: dpkg --add-architecture i386
       become: yes
 
-    - name: Download and add WineHQ GPG key
-      shell: |
-        wget -O - https://dl.winehq.org/wine-builds/winehq.key | \
-        gpg --batch --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key
+    - name: Download WineHQ GPG key (ASCII format)
+      ansible.builtin.get_url:
+        url: https://dl.winehq.org/wine-builds/winehq.key
+        dest: /tmp/winehq.key
+        mode: '0600'
+      become: yes
+    
+    - name: Convert to binary GPG key without TTY
+      ansible.builtin.command:
+        cmd: gpg --batch --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key /tmp/winehq.key
 
     - name: Wine repo add
       shell: |
