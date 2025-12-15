@@ -73,6 +73,14 @@
     group: "{{ user_name }}"
     mode: 0755
 
+- name: copy discord sh script
+  copy:
+    src: discord.sh
+    dest: "/home/{{ user_name }}/discord.sh"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0777
+
 - name: copy float script
   copy:
     src: workfloat.sh
@@ -105,21 +113,41 @@
     group: "{{ user_name }}"
     mode: 0755
 
-- name: bspwm config install
+- name: bspwm config install 1 monitor
+  copy:
+    src: bspwmrc_one
+    dest: "/home/{{ user_name }}/.config/bspwm/bspwmrc"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0775
+  when: count_monitor == "1"
+
+- name: bspwm config install 2 monitors
   copy:
     src: bspwmrc
     dest: "/home/{{ user_name }}/.config/bspwm/bspwmrc"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
     mode: 0775
+  when: count_monitor == "2"
 
-- name: polybar config install
+- name: polybar config install 1 monitor
+  copy:
+    src: polybarconfig_one
+    dest: "/home/{{ user_name }}/.config/polybar/config"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+  when: count_monitor == "1"
+
+- name: polybar config install 2 monitors
   copy:
     src: polybarconfig
     dest: "/home/{{ user_name }}/.config/polybar/config"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
     mode: 0755
+  when: count_monitor == "2"
 
 - name: Xresources config install
   copy:

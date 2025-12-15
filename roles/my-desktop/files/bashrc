@@ -20,7 +20,6 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT='%d.%m.%Y %H:%M:%S: '
 PROMPT_COMMAND='history -a'
 export LANGUAGE=ru
-export LC_ALL=ru_RU.UTF-8
 
 alias idf=". /home/alexander/Programming/esp/esp-idf/export.sh"
 export PATH=/home/alexander/Programming/esp/openocd-esp32/bin/:$PATH
