@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #variables
-WALLPAPER="/home/$USER/images/fon.jpeg"
+WALLPAPER="/home/$USER/images/fon.jpg"
 
 
 #wm config
