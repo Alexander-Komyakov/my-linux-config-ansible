@@ -1,8 +1,8 @@
 ---
 - name: install my desktop
   hosts: localhost
-  gather_facts: no
-  become: yes
+  gather_facts: true
+  become: true
   ignore_errors: true
   tasks:
     - name: my-desktop role
