@@ -225,9 +225,9 @@
 
     - name: Download and add WineHQ GPG key
       shell: |
-        wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+        wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 
-    - name: Download and add WineHQ GPG key
+    - name: Wine repo add
       shell: |
         wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
 
