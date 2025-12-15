@@ -25,7 +25,7 @@
       - picom
       - x11-xkb-utils
       - xfce4-terminal
-      - lightdm
+      - slim
       - xserver-xorg
       - xserver-xorg-core
       - firefox-esr
