@@ -219,10 +219,8 @@
 - name: Install wine
   block:
     - name: Enable i386 architecture for Wine
-      ansible.builtin.command:
+      command:
         cmd: dpkg --add-architecture i386
-        # Идемпотентность: проверяем, что архитектура ещё не добавлена
-        creates: /var/lib/dpkg/arch/i386
       become: yes
 
     - name: Download and add WineHQ GPG key
