@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#variables
+WALLPAPER="/home/$USER/images/fon.jpeg"
+
+
+#wm config
+bspc monitor DisplayPort-0  -d 1 2 3 4 5
+bspc monitor HDMI-A-0 -d 6 7 8 9 10
+bspc config window_gap 2
+bspc config border_width 1 
+#xrandr --output DisplayPort-0 --primary --mode 1920x1080 -r 170  --output HDMI-A-0 --mode 1920x1080 -r 75  --left-of DisplayPort-0
+bspc config normal_border_color "#ba9099"
+bspc config focused_border_color "#D2738A"
+bspc config active_border_color "#C1B492"
+bspc config ignore_ewmh_focus false
+#bspc config ignore_ewmh_focus true 
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus true
+bspc config pointer_follows_monitor true
+#bspc config pointer_modifier mod1
+xrandr --output DisplayPort-0 --primary --mode 1920x1080 -r 170 --pos 0x0 --rotate normal --output DisplayPort-2 --off --output HDMI-A-0 --mode 1920x1080 --pos 1920x0 --rotate normal &
+
+polybar --reload example &
+polybar --reload example2 &
+killall fcitx 2>/dev/null &
+killall pulse 2>/dev/null &
+
+#for i in `bspc query -N`; do bspc query --node $i -T|jq |grep -i className; done
+#bspc rule -a qjackctl desktop=^8
+bspc rule -a QjackCtl desktop=^8 state=floating center=true && qjackctl &
+#for i in `bspc query -N`; do for j in `bspc query --node $i -T|jq -r '.. | select(.client?.className == "QjackCtl") | .id'`; do bspc node $j -d ^8; done; done
+#rules
+bspc rule -a nekobox desktop=^9 
+bspc rule -a discord desktop=^10 && "$HOME/discord.sh"
+bspc rule -a TelegramDesktop desktop=^10 && /home/alexander/Downloads/Telegram/Telegram &
+bspc rule -a firefox desktop=^1 && firefox &
+bspc rule -a Google-chrome state=tiled desktop=^2 && sudo -E ip netns exec isolated su - $USER -c "DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR /opt/google/chrome/chrome --new-window" &
+
+#autostart
+sxhkd &
+autocutsel &
+feh --bg-scale $WALLPAPER &
+"$HOME/.scripts/workfloat.sh" &
+
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+xset s off dpms 0 0 0 &
+alttab -w 1 -d 0 -sc 0 -mk Control_L  -fg '#d58681' -bg '#4a4a4a' -frame '#eb564d' -t 128x150 -i 127x64 &

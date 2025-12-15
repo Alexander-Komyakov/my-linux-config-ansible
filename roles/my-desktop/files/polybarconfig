@@ -18,13 +18,16 @@
 
 [colors]
 background = #282A2E
-background-alt = #373B41 foreground = #C5C8C6
+background-alt = #373B41
+foreground = #C5C8C6
 primary = #F0C674
 secondary = #8ABEB7
 alert = #A54242
 disabled = #707880
 
 [bar/example]
+wm-restack = i3
+monitor = ${env:MONITOR:HDMI-A-0}
 width = 100%
 height = 18pt
 radius = 0
@@ -49,8 +52,8 @@ separator-foreground = ${colors.disabled}
 
 font-0 = monospace;2
 
-modules-left = i3 xwindow
 modules-right = pulseaudio xkeyboard date
+modules-left = xworkspaces
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -60,81 +63,104 @@ enable-ipc = true
 tray-position = right
 
 bottom = true
-wm-restack = i3
+
+label-active-padding = 1
 
 
-[bar/example2]
-width = 100%
-height = 18pt
-radius = 0
+label-occupied-padding = 1
 
-dpi = 85
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-size = 1pt
-
-border-size = 0pt
-border-color = #00000000
-
-padding-left = 0
-padding-right = 0
-
-module-margin = 1
-
-separator = |
-separator-foreground = ${colors.disabled}
-
-font-0 = monospace;2
-
-modules-left = i3 xwindow
-modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth date
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
-enable-ipc = true
-
-tray-position = right
-
-bottom = true
-wm-restack = i3
-
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-pin-workspaces = true
-
-ws-icon-0 = 1;web
-ws-icon-1 = 2;ml
-ws-icon-2 = 3;tg
-ws-icon-3 = 4;fw
-
-label-focused-foreground = #f3f3f3
-label-focused-background = #3f3f3f
-;label-focused-underline = #${colors.accent}
-label-focused-underline = #9f78e1
-
-label-unfocused-underline = #555555
-label-unfocused-font = 1
-label-unfocused-padding = 1
-
-label-urgent = %icon%  %name%
-label-urgent-foreground = #000000
-label-urgent-background = #bd2c40
-label-urgent-underline = #9b0a20
-label-urgent-font = 1
 label-urgent-padding = 1
 
-label-visible = %icon%  %name%
-label-visible-foreground = #55ffffff
-label-visible-font = 1
-label-visible-padding = 1
+label-empty-padding = 1
+
+[bar/example2]
+wm-restack = i3
+monitor = ${env:MONITOR:DisplayPort-0}
+width = 100%
+height = 18pt
+radius = 0
+
+dpi = 85
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 1pt
+
+border-size = 0pt
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.disabled}
+
+font-0 = monospace;2
+
+modules-right = vram filesystem pulseaudio xkeyboard memory cpu date
+modules-left = xworkspaces
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+bottom = true
+
+pin-workspaces = true
+
+format = <label-state>
+
+label-active-padding = 1
+
+
+label-occupied-padding = 1
+
+label-urgent-padding = 1
+
+label-empty-padding = 1
+
+;module/i3]
+;type = internal/i3
+;format = <label-state> <label-mode>
+;pin-workspaces = true
+;
+;ws-icon-0 = 1;web
+;ws-icon-1 = 2;ml
+;ws-icon-2 = 3;tg
+;ws-icon-3 = 4;fw
+;
+;label-focused-foreground = #f3f3f3
+;label-focused-background = #3f3f3f
+;;label-focused-underline = #${colors.accent}
+;label-focused-underline = #9f78e1
+;
+;label-unfocused-underline = #555555
+;label-unfocused-font = 1
+;label-unfocused-padding = 1
+;
+;label-urgent = %icon%  %name%
+;label-urgent-foreground = #000000
+;label-urgent-background = #bd2c40
+;label-urgent-underline = #9b0a20
+;label-urgent-font = 1
+;label-urgent-padding = 1
+;
+;label-visible = %icon%  %name%
+;label-visible-foreground = #55ffffff
+;label-visible-font = 1
+;label-visible-padding = 1
+
 
 [module/xworkspaces]
 type = internal/xworkspaces
 
+pin-workspaces = true
+
+format = <label-state>
 label-active = %name%
 label-active-background = ${colors.background-alt}
 label-active-underline= ${colors.primary}
@@ -202,6 +228,15 @@ format-prefix = "RAM "
 format-prefix-foreground = ${colors.primary}
 label = %percentage_used:2%%
 
+[module/vram]
+type = custom/script
+exec = echo $((`cat /sys/class/drm/card1/device/mem_info_vram_used`/1024/1024)) / $((`cat /sys/class/drm/card1/device/mem_info_vram_total`/1024/1024)) MB
+interval = 2
+format = <label>
+format-prefix = "VRAM "
+format-prefix-foreground = ${colors.primary}
+label = %output%
+
 [module/cpu]
 type = internal/cpu
 interval = 2
@@ -215,16 +250,6 @@ interval = 5
 format-connected = <label-connected>
 format-disconnected = <label-disconnected>
 label-disconnected = %{F#F0C674}%ifname%%{F#707880} disconnected
-
-[module/wlan]
-inherit = network-base
-interface-type = wireless
-label-connected = %{F#F0C674}%ifname%%{F-} %essid% %local_ip%
-
-[module/eth]
-inherit = network-base
-interface-type = wired
-label-connected = %{F#F0C674}%ifname%%{F-} %local_ip%
 
 [module/date]
 type = internal/date
@@ -240,4 +265,49 @@ label-foreground = ${colors.primary}
 screenchange-reload = true
 pseudo-transparency = true
 
+[bar/example3]
+wm-restack = i3
+monitor = ${env:MONITOR:DisplayPort-1}
+width = 100%
+height = 18pt
+radius = 0
+
+dpi = 85
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 1pt
+
+border-size = 0pt
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.disabled}
+
+font-0 = monospace;2
+
+modules-right = pulseaudio xkeyboard date
+modules-left = xworkspaces
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+bottom = true
+
+label-active-padding = 1
+
+
+label-occupied-padding = 1
+
+label-urgent-padding = 1
+
+label-empty-padding = 1
 ; vim:ft=dosini

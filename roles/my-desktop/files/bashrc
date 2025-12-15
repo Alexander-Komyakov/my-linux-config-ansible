@@ -8,6 +8,30 @@
 force_color_promt=yes
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -al'
-alias gosw='cd ~/.local/share/StartWine/data/scripts'
-PS1='\[\e[33m\]\u\[\e[31m\]@\[\e[32m\]\h:\W\[\e[37m\]$ '
-alias vpn='cd ~/openvpn/; ./2openvpnconnect.sh'
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+#export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+PS1="\[\e[33m\]\u\[\e[31m\]@\[\e[32m\]\h:\W\[\e[37m\]\$(parse_git_branch)$ "
+export EDITOR=vim
+export HISTSIZE=1000000000
+export HISTFILESIZE=1000000000
+export HISTCONTROL=ignoreboth:erasedups
+export HISTTIMEFORMAT='%d.%m.%Y %H:%M:%S: '
+PROMPT_COMMAND='history -a'
+export LANGUAGE=ru
+export LC_ALL=ru_RU.UTF-8
+
+alias idf=". /home/alexander/Programming/esp/esp-idf/export.sh"
+export PATH=/home/alexander/Programming/esp/openocd-esp32/bin/:$PATH
+export OPENOCD_SCRIPTS=/home/alexander/Programming/esp/openocd-esp32/share/openocd/scripts
+unset LD_PRELOAD
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+alias feh="feh  -F -Z --force-aliasing"
+
+
+alias isolated="sudo -E ip netns exec isolated su - $USER -c \"DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR "
+alias isolated-chromium="sudo -E ip netns exec isolated su - $USER -c \"DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR chrome\""
+alias isolated-chrome="sudo -E ip netns exec isolated su - $USER -c \"DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR /opt/google/chrome/chrome\""
+alias isolated-discord="sudo -E ip netns exec isolated su - $USER -c \"DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORIT DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS HOME=$HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR discord\""
+#export QT_QPA_PLATFORM=wayland
