@@ -78,7 +78,12 @@
       - vlc
     state: latest
 
-
+- name: Download Orca
+  get_url:
+    url: 'https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.3.1/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage'
+    dest: /opt/orca.AppImage
+    mode: '0777'
+  become: yes
 
 - name: Download winbox
   get_url:
