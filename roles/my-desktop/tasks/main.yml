@@ -74,6 +74,7 @@
       - livbirt-daemon
       - virt-manager
       - ssh-askpass
+      - resolvconf
     state: latest
 
 
