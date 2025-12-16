@@ -79,6 +79,8 @@
       - cups
       - libwebkit2gtk-4.1-0
     state: latest
+  tags:
+    - install_packages
 
 - name: Download Orca
   get_url:
@@ -263,6 +265,50 @@
           - winehq-stable
         state: present
         update_cache: yes
+
+- name: Install ONLYOFFICE Desktop Editors on Debian
+  become: yes
+  block:
+    - name: Ensure ~/.gnupg directory exists for gpg
+      file:
+        path: "{{ ansible_user_dir }}/.gnupg"
+        state: directory
+        mode: '0700'
+    
+    - name: Fetch ONLYOFFICE GPG key via keyserver
+      command:
+        cmd: gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+        creates: /tmp/onlyoffice.gpg
+    
+    - name: Copy ONLYOFFICE GPG key to /usr/share/keyrings/ (from remote src)
+      copy:
+        src: /tmp/onlyoffice.gpg
+        dest: /usr/share/keyrings/onlyoffice.gpg
+        remote_src: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Remove temporary GPG key file
+      file:
+        path: /tmp/onlyoffice.gpg
+        state: absent
+    
+    - name: Add ONLYOFFICE APT repository
+      apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main"
+        filename: onlyoffice
+        state: present
+    
+    - name: Install ONLYOFFICE Desktop Editors
+      apt:
+        name: onlyoffice-desktopeditors
+        state: present
+        update_cache: yes
+  tags:
+    - onlyoffice
+
+
 
 - name: Create directory to config
   file:

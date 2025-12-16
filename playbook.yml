@@ -11,4 +11,7 @@
       vars:
         user_name: 'testtest'
         user_password: '123456'
+      tags:
+        - onlyoffice
+        - install_packages
 ...
