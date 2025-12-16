@@ -53,7 +53,7 @@ tray-position = right
 
 font-0 = monospace;2
 
-modules-right = filesystem pulseaudio xkeyboard memory cpu date
+modules-right = filesystem xkeyboard memory cpu date
 modules-left = xworkspaces
 
 cursor-click = pointer
@@ -149,18 +149,6 @@ label-unmounted-foreground = ${colors.disabled}
 type = custom/script
 exec = $HOME/.config/polybar/battery.sh
 interval=5
-
-[module/pulseaudio]
-type = internal/pulseaudio
-
-format-volume-prefix = "VOL "
-format-volume-prefix-foreground = ${colors.primary}
-format-volume = <label-volume>
-
-label-volume = %percentage%%
-
-label-muted = muted
-label-muted-foreground = ${colors.disabled}
 
 [module/xkeyboard]
 type = internal/xkeyboard
