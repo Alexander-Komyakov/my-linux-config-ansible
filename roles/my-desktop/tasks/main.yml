@@ -76,6 +76,7 @@
       - ssh-askpass
       - resolvconf
       - vlc
+      - cups
     state: latest
 
 - name: Download Orca
