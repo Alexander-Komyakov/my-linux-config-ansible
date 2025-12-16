@@ -67,11 +67,11 @@
       - gvfs-backends
       - kdenlive
       - qemu-kvm
-      - libvirt-daemon-systemd
-      - livbirt-clients
-      - biridge-utils
+      - libvirt-daemon-system-systemd
+      - libvirt-clients
+      - bridge-utils
       - virtinst
-      - livbirt-daemon
+      - libvirt-daemon
       - virt-manager
       - ssh-askpass
       - resolvconf
