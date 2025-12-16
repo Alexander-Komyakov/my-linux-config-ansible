@@ -23,11 +23,7 @@ super + {_,shift + }{minus,equal,BackSpace}
 super + shift + q
 	bspc node -c
 super + f
-	if [ -z "$(bspc query -N -n focused.fullscreen)" ]; then \
-		bspc node focused -t fullscreen; \
-	else \
-		bspc node focused -t tiled; \
-	fi
+    bspc node -t '~fullscreen'
 super + x
     if [ -z "$(bspc query -N -n focused.floating)" ]; then \
         bspc node focused -t floating; \
