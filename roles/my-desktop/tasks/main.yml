@@ -65,6 +65,15 @@
       - thunderbird
       - gerbv
       - gvfs-backends
+      - kdenlive
+      - qemu-kvm
+      - libvirt-daemon-systemd
+      - livbirt-clients
+      - biridge-utils
+      - virtinst
+      - livbirt-daemon
+      - virt-manager
+      - ssh-askpass
     state: latest
 
 
