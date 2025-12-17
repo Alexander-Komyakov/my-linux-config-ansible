@@ -78,6 +78,7 @@
       - vlc
       - cups
       - libwebkit2gtk-4.1-0
+      - python3.13-venv
     state: latest
   tags:
     - install_packages
