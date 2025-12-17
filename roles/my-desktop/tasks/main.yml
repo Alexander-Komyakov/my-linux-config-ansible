@@ -83,6 +83,60 @@
   tags:
     - install_packages
 
+- name: Repo configure
+  block:
+    - name: Reset main sources.list to managed state
+      copy:
+        content: "# Managed by Ansible — see /etc/apt/sources.list.d/\n"
+        dest: /etc/apt/sources.list
+        mode: '0644'
+      become: yes
+    
+    - name: Configure base Debian 13 (trixie) repository
+      apt_repository:
+        repo: "deb http://deb.debian.org/debian/ trixie main non-free-firmware"
+        filename: debian-trixie
+        state: present
+      become: yes
+    
+    - name: Configure trixie source packages
+      apt_repository:
+        repo: "deb-src http://deb.debian.org/debian/ trixie main non-free-firmware"
+        filename: debian-trixie-src
+        state: present
+      become: yes
+    
+    - name: Configure Debian security updates
+      apt_repository:
+        repo: "deb http://security.debian.org/debian-security trixie-security main non-free-firmware"
+        filename: debian-security
+        state: present
+      become: yes
+    
+    - name: Configure Debian security source packages
+      apt_repository:
+        repo: "deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware"
+        filename: debian-security-src
+        state: present
+      become: yes
+    
+    - name: Configure trixie-updates
+      apt_repository:
+        repo: "deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware"
+        filename: debian-updates
+        state: present
+      become: yes
+    
+    - name: Configure trixie-updates source packages
+      apt_repository:
+        repo: "deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware"
+        filename: debian-updates-src
+        state: present
+      become: yes
+  tags:
+    - repos
+
+  become: yes
 - name: Download Orca
   get_url:
     url: 'https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.3.1/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage'
