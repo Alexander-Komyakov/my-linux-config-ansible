@@ -136,7 +136,6 @@
   tags:
     - repos
 
-  become: yes
 - name: Download Orca
   get_url:
     url: 'https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.3.1/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage'
@@ -320,6 +319,11 @@
           - winehq-stable
         state: present
         update_cache: yes
+
+- name: Install steam
+  package:
+    name:
+      - steam
 
 - name: Install ONLYOFFICE Desktop Editors on Debian
   become: yes
