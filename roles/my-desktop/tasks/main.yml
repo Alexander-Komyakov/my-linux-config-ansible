@@ -321,9 +321,29 @@
         update_cache: yes
 
 - name: Install steam
-  package:
-    name:
-      - steam
+  block:
+    - name: Add Steam GPG key
+      get_url:
+        url: https://repo.steampowered.com/steam/archive/stable/steam.gpg
+        dest: /etc/apt/trusted.gpg.d/steam.gpg
+        mode: '0644'
+      
+    - name: Add Steam APT repository
+      apt_repository:
+        repo: "deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam"
+        filename: steam-stable
+        state: present
+    
+    - name: Install Steam launcher and 32-bit OpenGL dependencies
+      apt:
+        name:
+          - steam-launcher
+          - libgl1-mesa-dri:amd64
+          - libgl1-mesa-dri:i386
+        state: present
+        update_cache: yes
+  tags:
+    - steam
 
 - name: Install ONLYOFFICE Desktop Editors on Debian
   become: yes
