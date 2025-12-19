@@ -12,7 +12,8 @@ Candle ngc pcb2gcode config 2.5.0
 godot 4 install
 asseprite install
 krew https://krew.sigs.k8s.io/docs/user-guide/setup/install/
-kube-oidc-login
+kubectl krew install kube-oidc-login
+kubectl krew install exec-as
 
 # Created by Alexander Komyakov
 For any kind of help, support, suggetion and request ask in me
