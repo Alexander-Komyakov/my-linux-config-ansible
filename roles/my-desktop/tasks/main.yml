@@ -79,6 +79,7 @@
       - cups
       - libwebkit2gtk-4.1-0
       - python3.13-venv
+      - ardour
     state: latest
   tags:
     - install_packages
