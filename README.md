@@ -14,6 +14,11 @@ asseprite install
 krew https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 kubectl krew install kube-oidc-login
 kubectl krew install exec-as
+sudo tee /etc/security/limits.d/audio.conf <<EOF
+@audio - rtprio 95
+@audio - memlock unlimited
+@audio - nice -19
+EOF
 
 # Created by Alexander Komyakov
 For any kind of help, support, suggetion and request ask in me
