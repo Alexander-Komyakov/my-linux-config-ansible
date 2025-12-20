@@ -21,7 +21,7 @@ bspc config pointer_follows_monitor true
 
 polybar --reload example &
 killall fcitx 2>/dev/null &
-killall pulse 2>/dev/null &
+killall pulseaudio 2>/dev/null &
 
 #for i in `bspc query -N`; do bspc query --node $i -T|jq |grep -i className; done
 bspc rule -a QjackCtl desktop=^8 state=floating center=true && qjackctl &

@@ -24,7 +24,7 @@ xrandr --output DisplayPort-0 --primary --mode 1920x1080 -r 170 --pos 0x0 --rota
 polybar --reload example &
 polybar --reload example2 &
 killall fcitx 2>/dev/null &
-killall pulse 2>/dev/null &
+killall pulseaudio 2>/dev/null &
 
 #for i in `bspc query -N`; do bspc query --node $i -T|jq |grep -i className; done
 bspc rule -a QjackCtl desktop=^8 state=floating center=true && qjackctl &
