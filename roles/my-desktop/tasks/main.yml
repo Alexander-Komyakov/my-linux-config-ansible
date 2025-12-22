@@ -28,6 +28,7 @@
       - bspwm
       - vim
       - rsync
+      - tmux
       - rofi
       - xsecurelock
       - polybar
