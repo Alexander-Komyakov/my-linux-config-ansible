@@ -82,6 +82,7 @@
       - python3.13-venv
       - ardour
       - rakarrack
+      - jq
     state: latest
   tags:
     - install_packages
